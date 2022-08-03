@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
+
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -67,7 +68,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '720129245242',
     projectId: 'fir-todolist-81bd3',
     storageBucket: 'fir-todolist-81bd3.appspot.com',
-    iosClientId: '720129245242-idkaek1b4ps67dcf9938kfifl051i302.apps.googleusercontent.com',
+    iosClientId:
+        '720129245242-idkaek1b4ps67dcf9938kfifl051i302.apps.googleusercontent.com',
     iosBundleId: 'com.example.firebaseTodolist',
   );
 
@@ -77,7 +79,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '720129245242',
     projectId: 'fir-todolist-81bd3',
     storageBucket: 'fir-todolist-81bd3.appspot.com',
-    iosClientId: '720129245242-idkaek1b4ps67dcf9938kfifl051i302.apps.googleusercontent.com',
+    iosClientId:
+        '720129245242-idkaek1b4ps67dcf9938kfifl051i302.apps.googleusercontent.com',
     iosBundleId: 'com.example.firebaseTodolist',
   );
 }
