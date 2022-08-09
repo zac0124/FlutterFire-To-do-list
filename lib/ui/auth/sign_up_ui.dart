@@ -1,21 +1,18 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'dart:core';
-import 'package:firebase_todolist/ui/auth/auth.dart';
 import 'package:firebase_todolist/ui/components/components.dart';
 import 'package:firebase_todolist/helpers/helpers.dart';
 import 'package:firebase_todolist/controllers/controllers.dart';
-import 'package:firebase_todolist/helpers/helpers.dart';
+import 'package:firebase_todolist/ui/auth/auth.dart';
 
-class resetPasswordUI extends StatelessWidget {
+class SignUpUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
       body: Form(
         key: _formKey,
         child: Padding(
@@ -29,51 +26,57 @@ class resetPasswordUI extends StatelessWidget {
                   LogoGraphicHeader(),
                   SizedBox(height: 48.0),
                   FormInputFieldWithIcon(
+                    controller: authController.nameController,
+                    iconPrefix: Icons.person,
+                    labelText: 'auth.nameFormField'.tr,
+                    validator: Validator().name,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.nameController.text = value!,
+                  ),
+                  FormVerticalSpace(),
+                  FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: Icons.email,
                     labelText: 'auth.emailFormField'.tr,
                     validator: Validator().email,
-                    keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                        authController.emailController.text = value as String,
+                        authController.emailController.text = value!,
+                  ),
+                  FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.passwordController,
+                    iconPrefix: Icons.lock,
+                    labelText: 'auth.passwordFormField'.tr,
+                    validator: Validator().password,
+                    obscureText: true,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.emailController.text = value!,
+                    maxLines: 1,
                   ),
                   FormVerticalSpace(),
                   PrimaryButton(
-                      labelText: 'auth.resetPasswordButton'.tr,
+                      labelText: 'auth.signUpButton'.tr,
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          await authController.sendPasswordResetEmail(context);
+                          SystemChannels.textInput
+                              .invokeMethod('TextInput.hide');
+                          authController.registerWithEmailAndPassword(context);
                         }
                       }),
                   FormVerticalSpace(),
-                  signInLink(context),
+                  LabelButton(
+                    labelText: 'auth.signInLabelButton'.tr,
+                    onPressed: () => Get.to(SignUpUI()),
+                  ),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  appBar(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return null;
-    }
-    return AppBar(title: Text('auth.resetPasswordTitle'.tr));
-  }
-
-  signInLink(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return LabelButton(
-        labelText: 'auth.signInonResetPasswordLabelButton'.tr,
-        onPressed: () => Get.offAll(SignInUI()),
-      );
-    }
-    return Container(
-      width: 0,
-      height: 0,
     );
   }
 }

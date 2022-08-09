@@ -1,12 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_todolist/constants/app_themes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
-import 'todo.dart';
+import 'ui/todo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_todolist/helpers/helpers.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:firebase_todolist/ui/components/components.dart';
+import 'package:firebase_todolist/constants/constants.dart';
+import 'package:firebase_todolist/controllers/controllers.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -18,25 +24,32 @@ import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await firebaseInitialization.then((value) => {
-        Get.put(AuthController()),
-      });
-  runApp(const MyApp());
+  await Firebase.initializeApp();
+  await GetStorage.init();
+  Get.put<AuthController>(AuthController());
+  Get.put<ThemeController>(ThemeController());
+  Get.put<LanguageController>(LanguageController());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SignUp(),
-    );
+    ThemeController.to.getThemeModeFromStore();
+    return GetBuilder<LanguageController>(
+        builder: (languageController) => Loading(
+              child: GetMaterialApp(
+                translations: Localization(),
+                locale: languageController.getLocale,
+                navigatorObservers: [],
+                debugShowCheckedModeBanner: false,
+                theme: AppThemes.lightTheme,
+                darkTheme: AppThemes.darkTheme,
+                themeMode: ThemeMode.system,
+                initialRoute: "/",
+                getPages: AppRoutes.routes,
+              ),
+            ));
   }
 }

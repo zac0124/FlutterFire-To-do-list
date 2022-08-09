@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_todolist/ui/auth/auth.dart';
 import 'package:firebase_todolist/ui/ui.dart';
+import 'package:firebase_todolist/helpers/helpers.dart';
 
 class AuthController extends GetxController {
   static AuthController to = Get.find();
@@ -19,7 +20,8 @@ class AuthController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  Rxn<User> firebaseUser = Rxn<UserModel>();
+  Rxn<User> firebaseUser = Rxn<User>();
+  Rxn<UserModel> firestoreUser = Rxn<UserModel>();
   final RxBool admin = false.obs;
 
   @override
@@ -93,7 +95,7 @@ class AuthController extends GetxController {
         Gravatar gravatar = Gravatar(emailController.text);
         String gravatarUrl = gravatar.imageUrl(
           size: 200,
-          defaultImage: Gravatar.retro,
+          defaultImage: GravatarImage.retro,
           rating: GravatarRating.pg,
           fileExtension: true,
         );
@@ -174,6 +176,11 @@ class AuthController extends GetxController {
     }
   }
 
+  void _updateUserFirestore(UserModel user, User _firebaseUser) {
+    _db.doc('/users/${_firebaseUser.uid}').update(user.toJson());
+    update();
+  }
+
   void _createUserFirestore(UserModel user, User _firebaseUser) {
     _db.doc('/users/${_firebaseUser.uid}').set(user.toJson());
     update();
@@ -192,7 +199,31 @@ class AuthController extends GetxController {
           colorText: Get.theme.snackBarTheme.actionTextColor);
     } on FirebaseAuthException catch (error) {
       hideLoadingIndicator();
-      Get.snackbar('auth.resetPassword', message)
+      Get.snackbar('auth.resetPasswordFailed'.tr, error.message!,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: Duration(seconds: 10),
+          backgroundColor: Get.theme.snackBarTheme.backgroundColor,
+          colorText: Get.theme.snackBarTheme.actionTextColor);
     }
+  }
+
+  isAdmin() async {
+    await getUser.then((user) async {
+      DocumentSnapshot adminRef =
+          await _db.collection('admin').doc(user.uid).get();
+      if (adminRef.exists) {
+        admin.value = true;
+      } else {
+        admin.value = false;
+      }
+      update();
+    });
+  }
+
+  Future<void> signOut() {
+    nameController.clear();
+    emailController.clear();
+    passwordController.clear();
+    return _auth.signOut();
   }
 }

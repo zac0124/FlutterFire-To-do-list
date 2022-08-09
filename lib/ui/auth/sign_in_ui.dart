@@ -1,23 +1,20 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'dart:core';
+import 'package:get/get.dart';
 import 'package:firebase_todolist/ui/auth/auth.dart';
 import 'package:firebase_todolist/ui/components/components.dart';
 import 'package:firebase_todolist/helpers/helpers.dart';
 import 'package:firebase_todolist/controllers/controllers.dart';
-import 'package:firebase_todolist/helpers/helpers.dart';
 
-class resetPasswordUI extends StatelessWidget {
+class SignInUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
       body: Form(
-        key: _formKey,
+        key: _formkey,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Center(
@@ -27,7 +24,7 @@ class resetPasswordUI extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   LogoGraphicHeader(),
-                  SizedBox(height: 48.0),
+                  SizedBox(height: 48),
                   FormInputFieldWithIcon(
                     controller: authController.emailController,
                     iconPrefix: Icons.email,
@@ -36,44 +33,43 @@ class resetPasswordUI extends StatelessWidget {
                     keyboardType: TextInputType.emailAddress,
                     onChanged: (value) => null,
                     onSaved: (value) =>
-                        authController.emailController.text = value as String,
+                        authController.emailController.text = value!,
+                  ),
+                  FormVerticalSpace(),
+                  FormInputFieldWithIcon(
+                    controller: authController.passwordController,
+                    iconPrefix: Icons.lock,
+                    labelText: 'auth.passwordFormField'.tr,
+                    validator: Validator().password,
+                    obscureText: true,
+                    onChanged: (value) => null,
+                    onSaved: (value) =>
+                        authController.passwordController.text = value!,
+                    maxLines: 1,
                   ),
                   FormVerticalSpace(),
                   PrimaryButton(
-                      labelText: 'auth.resetPasswordButton'.tr,
+                      labelText: 'auth.signInButton'.tr,
                       onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await authController.sendPasswordResetEmail(context);
+                        if (_formkey.currentState!.validate()) {
+                          authController.signInWithEmailAndPassword(context);
                         }
                       }),
                   FormVerticalSpace(),
-                  signInLink(context),
+                  LabelButton(
+                    labelText: 'auth.resetPasswordLabelButton'.tr,
+                    onPressed: () => Get.to(resetPasswordUI()),
+                  ),
+                  LabelButton(
+                    labelText: 'auth.signUpLabelButton'.tr,
+                    onPressed: () => Get.to(SignUpUI()),
+                  ),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  appBar(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return null;
-    }
-    return AppBar(title: Text('auth.resetPasswordTitle'.tr));
-  }
-
-  signInLink(BuildContext context) {
-    if (authController.emailController.text == '') {
-      return LabelButton(
-        labelText: 'auth.signInonResetPasswordLabelButton'.tr,
-        onPressed: () => Get.offAll(SignInUI()),
-      );
-    }
-    return Container(
-      width: 0,
-      height: 0,
     );
   }
 }
