@@ -1,6 +1,3 @@
-import 'dart:ffi';
-import 'dart:html';
-
 import 'package:firebase_todolist/models/user_models.dart';
 import 'package:firebase_todolist/ui/components/loading.dart';
 import 'package:flutter/material.dart';
@@ -102,7 +99,7 @@ class AuthController extends GetxController {
 
         UserModel _newUser = UserModel(
             uid: result.user!.uid,
-            email: result.user!.email,
+            email: result.user!.email.toString(),
             name: nameController.text,
             photoUrl: gravatarUrl);
         _createUserFirestore(_newUser, result.user!);

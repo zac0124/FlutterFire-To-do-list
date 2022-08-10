@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:get/get.dart';
 
 class Localization extends Translations {

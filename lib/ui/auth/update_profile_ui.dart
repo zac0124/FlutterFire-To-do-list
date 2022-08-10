@@ -35,7 +35,7 @@ class UpdateProfileUI extends StatelessWidget {
                       iconPrefix: Icons.person,
                       labelText: 'auth.nameFormField'.tr,
                       validator: Validator().name,
-                      onChanged: (value) => null,
+                      //onChanged: (value) => null,
                       onSaved: (value) =>
                           authController.nameController.text = value!),
                   FormVerticalSpace(),
@@ -44,7 +44,7 @@ class UpdateProfileUI extends StatelessWidget {
                       iconPrefix: Icons.email,
                       labelText: 'auth.emailFormField'.tr,
                       validator: Validator().email,
-                      onChanged: (value) => null,
+                      //onChanged: (value) => null,
                       onSaved: (value) =>
                           authController.emailController.text = value!),
                   FormVerticalSpace(),
@@ -101,7 +101,7 @@ class UpdateProfileUI extends StatelessWidget {
           }
         },
         obscureText: true,
-        onChanged: (value) => null,
+        //onChanged: (value) => null,
         onSaved: (value) => _password.text = value!,
         maxLines: 1,
       ),

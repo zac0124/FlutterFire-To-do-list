@@ -31,7 +31,7 @@ class SignInUI extends StatelessWidget {
                     labelText: 'auth.emailFormField'.tr,
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) => null,
+                    //onChanged: (value) => null,
                     onSaved: (value) =>
                         authController.emailController.text = value!,
                   ),
@@ -42,7 +42,7 @@ class SignInUI extends StatelessWidget {
                     labelText: 'auth.passwordFormField'.tr,
                     validator: Validator().password,
                     obscureText: true,
-                    onChanged: (value) => null,
+                    //onChanged: (value) => null,
                     onSaved: (value) =>
                         authController.passwordController.text = value!,
                     maxLines: 1,

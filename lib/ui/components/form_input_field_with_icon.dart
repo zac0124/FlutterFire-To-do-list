@@ -10,7 +10,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
       this.obscureText = false,
       this.minLines = 1,
       this.maxLines,
-      required this.onChanged,
+      //required this.onChanged,
       required this.onSaved});
 
   final TextEditingController controller;
@@ -21,7 +21,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final bool obscureText;
   final int minLines;
   final int? maxLines;
-  final void Function(String) onChanged;
+  //final void Function(String) onChanged;
   final void Function(String?)? onSaved;
 
   @override
@@ -34,7 +34,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
       ),
       controller: controller,
       onSaved: onSaved,
-      onChanged: onChanged,
+      //onChanged: onChanged,
       keyboardType: keyboardType,
       obscureText: obscureText,
       maxLines: maxLines,

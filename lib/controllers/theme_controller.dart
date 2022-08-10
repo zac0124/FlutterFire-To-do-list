@@ -37,7 +37,7 @@ class ThemeController extends GetxController {
 
   bool get isDarkModeOn {
     if (currentTheme == 'system') {
-      if (WidgetsBinding.instance!.window.platformBrightness ==
+      if (WidgetsBinding.instance.window.platformBrightness ==
           Brightness.dark) {
         return true;
       }

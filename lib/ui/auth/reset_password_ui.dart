@@ -34,7 +34,7 @@ class resetPasswordUI extends StatelessWidget {
                     labelText: 'auth.emailFormField'.tr,
                     validator: Validator().email,
                     keyboardType: TextInputType.emailAddress,
-                    onChanged: (value) => null,
+                    // onChanged: (value) => null,
                     onSaved: (value) =>
                         authController.emailController.text = value as String,
                   ),

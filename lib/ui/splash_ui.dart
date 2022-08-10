@@ -8,7 +8,8 @@ class SplashUI extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: Center(
-          child: CircularProgressIndicator(),
+          child: Text('test'),
+          //child: CircularProgressIndicator(),
         ),
       ),
     );
