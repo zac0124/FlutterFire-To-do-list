@@ -22,6 +22,13 @@ class AuthController extends GetxController {
   final RxBool admin = false.obs;
 
   @override
+  void onReady() async {
+    ever(firebaseUser, handleAuthChanged);
+    firebaseUser.bindStream(user);
+    super.onReady();
+  }
+
+  @override
   void onClose() {
     nameController.dispose();
     emailController.dispose();
