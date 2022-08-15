@@ -16,7 +16,7 @@ class FormInputFieldWithIcon extends StatelessWidget {
   final TextEditingController controller;
   final IconData iconPrefix;
   final String labelText;
-  final String Function(String?)? validator;
+  final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final bool obscureText;
   final int minLines;

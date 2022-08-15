@@ -64,6 +64,11 @@ class HomeUI extends StatelessWidget {
                             controller.admin.value.toString(),
                         style: TextStyle(fontSize: 16),
                       ),
+                      FormVerticalSpace(),
+                      PrimaryButton(
+                        labelText: 'Start creating tasks'.tr,
+                        onPressed: () => Get.to(TaskPage()),
+                      ),
                     ],
                   )
                 ],

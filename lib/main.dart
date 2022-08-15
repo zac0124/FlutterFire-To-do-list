@@ -24,7 +24,9 @@ import 'package:firebase_todolist/controllers/controllers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await GetStorage.init();
   Get.put<AuthController>(AuthController());
   Get.put<ThemeController>(ThemeController());
