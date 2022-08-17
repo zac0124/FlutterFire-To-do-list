@@ -1,3 +1,4 @@
+import 'package:firebase_todolist/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_todolist/ui/components/components.dart';
 import 'package:firebase_todolist/helpers/helpers.dart';
 import 'package:firebase_todolist/controllers/controllers.dart';
 import 'package:firebase_todolist/ui/auth/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
@@ -58,18 +60,19 @@ class SignUpUI extends StatelessWidget {
                   ),
                   FormVerticalSpace(),
                   PrimaryButton(
-                      labelText: 'auth.signUpButton'.tr,
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          SystemChannels.textInput
-                              .invokeMethod('TextInput.hide');
-                          authController.registerWithEmailAndPassword(context);
-                        }
-                      }),
+                    labelText: 'auth.signUpButton'.tr,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        SystemChannels.textInput.invokeMethod('TextInput.hide');
+                        authController.registerWithEmailAndPassword(context);
+                        emailVerify();
+                      }
+                    },
+                  ),
                   FormVerticalSpace(),
                   LabelButton(
                     labelText: 'auth.signInLabelButton'.tr,
-                    onPressed: () => Get.to(SignInUI()),
+                    onPressed: () => Get.to(() => SignInUI()),
                   ),
                 ],
               ),
@@ -78,5 +81,12 @@ class SignUpUI extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void emailVerify() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (!(user!.emailVerified)) {
+      user.sendEmailVerification();
+    }
   }
 }

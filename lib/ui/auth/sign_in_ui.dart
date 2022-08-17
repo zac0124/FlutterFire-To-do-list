@@ -58,11 +58,11 @@ class SignInUI extends StatelessWidget {
                   FormVerticalSpace(),
                   LabelButton(
                     labelText: 'auth.resetPasswordLabelButton'.tr,
-                    onPressed: () => Get.to(resetPasswordUI()),
+                    onPressed: () => Get.to(() => resetPasswordUI()),
                   ),
                   LabelButton(
                     labelText: 'auth.signUpLabelButton'.tr,
-                    onPressed: () => Get.to(SignUpUI()),
+                    onPressed: () => Get.to(() => SignUpUI()),
                   ),
                 ],
               ),
