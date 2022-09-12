@@ -13,6 +13,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:firebase_todolist/ui/components/components.dart';
 import 'package:firebase_todolist/constants/constants.dart';
 import 'package:firebase_todolist/controllers/controllers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,7 @@ void main() async {
   Get.put<AuthController>(AuthController());
   Get.put<ThemeController>(ThemeController());
   Get.put<LanguageController>(LanguageController());
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

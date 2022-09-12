@@ -1,4 +1,5 @@
 import 'package:firebase_todolist/ui/ui.dart';
+import 'package:firebase_todolist/ui/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_todolist/helpers/helpers.dart';
 import 'package:firebase_todolist/controllers/controllers.dart';
 import 'package:firebase_todolist/ui/auth/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_todolist/ui/verification.dart';
 
 class SignUpUI extends StatelessWidget {
   final AuthController authController = AuthController.to;
@@ -64,8 +66,13 @@ class SignUpUI extends StatelessWidget {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         SystemChannels.textInput.invokeMethod('TextInput.hide');
-                        authController.registerWithEmailAndPassword(context);
-                        emailVerify();
+                        try {
+                          if (await authController
+                              .registerWithEmailAndPassword(context)
+                              .then(Get.to(VerifyEmail()))) ;
+                        } catch (error) {
+                          print('error verification');
+                        }
                       }
                     },
                   ),
@@ -81,12 +88,5 @@ class SignUpUI extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void emailVerify() {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (!(user!.emailVerified)) {
-      user.sendEmailVerification();
-    }
   }
 }

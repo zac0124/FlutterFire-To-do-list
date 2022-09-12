@@ -1,4 +1,5 @@
 import 'package:firebase_todolist/controllers/controllers.dart';
+import 'package:firebase_todolist/ui/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_todolist/ui/components/components.dart';
 import 'package:firebase_todolist/ui/ui.dart';
@@ -9,9 +10,9 @@ class HomeUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(
       init: AuthController(),
-      builder: ((controller) => controller.firestoreUser.value!.uid == null
+      builder: ((controller) => controller.firestoreUser.value?.uid == null
           ? Center(
-              child: CircularProgressIndicator(),
+              child: SignInUI(),
             )
           : Scaffold(
               appBar: AppBar(
